@@ -12,10 +12,12 @@ if ARGV.size == 0 || ARGV.size > 1
   exit 0
 end
 letters = ARGV[0].upcase
-letters.chars.permutation.to_a.uniq.each do |p|
-  pw = p.join
-  #puts "word is " + pw
-  if words[pw]
-    puts pw
+(1..letters.length).to_a.each do |i|
+  letters.chars.combination(i).to_a.uniq.each do |p|
+    pw = p.join
+    #puts "word is " + pw
+    if words[pw]
+      puts pw
+    end
   end
 end
