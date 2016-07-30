@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 
-words = []
+words = {}
 File.open("/usr/share/dict/words") do |file|
   file.each do |line|
-    words << line.strip
+    words[line.strip.upcase] = true
   end
 end
 
-if ARGV.size == 0 || ARGV.size > 2
-  puts "Usage: fword <letters> [regex]"
+if ARGV.size == 0 || ARGV.size > 1
+  puts "Usage: words <letters>"
   exit 0
 end
-letters = ARGV[0]
-if ARGV.size > 1
-  a2 = ARGV[1].upcase
-  re = Regexp.new(a2)
-  words = words.select{|w| w =~ re}
-  a2.each_char {|c| letters += c if c =~ /[A-Z]/}
+letters = ARGV[0].upcase
+letters.chars.permutation.to_a.uniq.each do |p|
+  pw = p.join
+  #puts "word is " + pw
+  if words[pw]
+    puts pw
+  end
 end
-s = letters.upcase.each_char.sort
